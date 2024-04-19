@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoponline.repository.OrderRepo">
+    <resultMap id="orderResult" type="Order" autoMapping="true">
+        <association property="customer">
+            <id column="customer_id" property="id" />
+        </association>
+    </resultMap>
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into `order` (customer_id, confirm, cost, created_at)
+        values (#{customer.id}, #{confirm}, #{cost}, #{createdAt})
+    </insert>
+    <select id="findByCustomerIdAndConfirm" resultMap="orderResult">
+        select * from `order` where `customer_id` = #{customerId} and `confirm` = #{confirm}
+    </select>
+    <select id="findById" resultMap="orderResult">
+        select * from `order` where `id` = #{id}
+    </select>
+    <update id="update">
+        update `order` set
+                `cost` = #{cost},
+                `confirm` = #{confirm}
+        where `id` = #{id}
+    </update>
+</mapper>

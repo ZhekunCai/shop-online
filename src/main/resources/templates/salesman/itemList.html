@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{header :: header ('商品列表')}"></head>
+<body>
+<div class="container">
+  <h3>商品列表</h3>
+  <table class="table table-bordered text-center">
+    <thead class="text-primary">
+    <tr>
+      <th>ID</th>
+      <th>商品名</th>
+      <th>商品图</th>
+      <th>价格/元</th>
+      <th>库存</th>
+      <th>是否在售</th>
+      <th>创建时间</th>
+      <th>修改时间</th>
+      <th>销售人员</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item:${itemList}">
+      <td th:text="${item.id}"></td>
+      <td th:text="${item.name}"></td>
+      <td><img th:src="@{${item.image != null} ? |/upload/${item.image}| : '/image/default-item-image.png'}" width="60px"></td>
+      <td th:text="${item.price}"></td>
+      <td th:text="${item.inventory}"></td>
+      <td th:text="${item.onSale}"></td>
+      <td th:text="${#dates.format(item.createdAt, 'yyyy/MM/dd HH:mm')}"></td>
+      <td th:text="${#dates.format(item.modifiedAt, 'yyyy/MM/dd HH:mm')}"></td>
+      <td th:text="${item.salesman.username}"></td>
+      <td>
+        <div class="btn-group">
+          <a th:href="@{'/admin/salesman/' + ${item.salesman.id}}" class="btn btn-primary">业绩</a>
+          <a th:href="@{|/salesman/updateItem/${item.id}|}" class="btn btn-info">修改</a>
+          <a th:href="@{|/salesman/removeItem/${item.id}|}" class="btn btn-danger">删除</a>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

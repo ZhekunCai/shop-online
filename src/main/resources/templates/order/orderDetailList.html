@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{header :: header ('订单详情')}"></head>
+<body>
+<div class="container">
+  <table class="table table-bordered text-center">
+    <thead class="text-primary">
+    <tr>
+      <th>商品名</th>
+      <th>商品图</th>
+      <th>价格/元</th>
+      <th>购买数量</th>
+      <th th:if="${current}">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="orderDetail:${orderDetailList}">
+      <td th:text="${orderDetail.item.name}"></td>
+      <td><img th:src="@{|/upload/${orderDetail.item.image}|}" width="60px"></td>
+      <td th:text="${orderDetail.item.price}"></td>
+      <td th:text="${orderDetail.num}"></td>
+      <td th:if="${current}">
+        <div class="btn-group">
+          <a th:href="@{|/order/addItem/${orderDetail.item.id}|}"
+             class="btn btn-info">继续购买</a>
+          <a th:href="@{|/order/removeItem/${orderDetail.item.id}|}"
+             class="btn btn-danger">删除</a>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <p>总价：<span class="text-primary" th:text="${order.cost}"></span></p>
+  <a class="btn btn-primary" th:href="@{/order/confirm}" th:if="${current}">确认订单</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoponline.repository.UserRepo">
+    <select id="find" resultType="User">
+        select * from `user`
+        <where>
+            <if test="id != null">
+                and `id` = #{id}
+            </if>
+            <if test="username != null">
+                and `username` = #{username}
+            </if>
+            <if test="role != null">
+                and `role` = #{role}
+            </if>
+        </where>
+    </select>
+    <select id="findByUsernameAndPassword" resultType="User">
+        select * from `user`
+        where `username` = #{username} and `passord` = #{password}
+    </select>
+    <insert id="insert">
+        insert into `user` (`username`, `password`, `role`, `created_at`)
+        values (#{username}, #{password}, #{role}, #{createdAt})
+    </insert>
+    <update id="update">
+        update `user` set `username` = #{username}, `password` = #{password}
+        where `id` = #{id}
+    </update>
+    <delete id="delete">
+        delete from `user` where `id` = #{id}
+    </delete>
+    <select id="countByUsername">
+        select count(*) from `user` where `username` = #{username}
+    </select>
+</mapper>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      th:fragment="header(title)">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>[[${title}]] - Shop Online</title>
+
+  <link rel="stylesheet" th:href="@{/lib/bootstrap.min.css}"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script th:src="@{/lib/jquery.slim.min.js}"
+          src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+  <script th:src="@{/lib/bootstrap.bundle.min.js}"
+          src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-up">
+  <a class="navbar-brand" th:href="@{/}">
+    <img th:src="@{/image/favicon-32x32.png}" class="img-fluid"/>&nbsp;Shop Online
+  </a>
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navb">
+
+    <!-- 根据角色权限展示链接 -->
+    <ul class="navbar-nav mr-auto" sec:authorize="hasRole('ADMIN')">
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/admin/salesmanList}">销售人员列表</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/admin/addSalesman}">新增销售人员</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav mr-auto" sec:authorize="hasRole('SALESMAN')">
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/salesman/itemList}">负责商品列表</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/salesman/addItem}">新增商品</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/salesman/sales}">业绩</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav mr-auto" sec:authorize="hasRole('CUSTOMER') || isAnonymous()">
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/itemList}">商品列表</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/order/current}">当前订单</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/order/history}">历史订单</a>
+      </li>
+      <li>
+        <form class="form-inline" th:action="@{|/itemList|}" method="get">
+          <input class="form-control" name="query">
+          <input class="btn btn-primary" type="submit" value="搜索">
+        </form>
+      </li>
+    </ul>
+
+    <!-- 根据登录与否展示内容 -->
+    <form sec:authorize="isAuthenticated()" class="form-inline" th:action="@{/logout}" method="post">
+      <div class="text-primary" th:text="|欢迎，${#authentication.principal.username}！|"></div>
+      <input class="btn btn-primary" type="submit" value="退出"/>
+    </form>
+    <div sec:authorize="isAnonymous()" class="btn-group">
+      <a th:href="@{/login}" class="btn btn-primary">登录</a>
+      <a th:href="@{/register}" class="btn btn-primary">注册</a>
+    </div>
+  </div>
+</nav>
+</body>
+</html>

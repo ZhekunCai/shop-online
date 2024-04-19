@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{header :: header ('销售人员列表')}"></head>
+<body>
+<div class="container">
+  <h3>销售人员列表</h3>
+  <table class="table table-bordered table-hover text-center">
+    <thead class="text-primary">
+    <tr>
+      <th>ID</th>
+      <th>用户名</th>
+      <th>创建时间</th>
+      <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="salesman:${salesmanList}">
+      <td th:text="${salesman.id}"></td>
+      <td th:text="${salesman.username}"></td>
+      <td th:text="${salesman.createdAt}"></td>
+      <td>
+        <div class="btn-group">
+          <a th:href="@{|/admin/salesman/${salesman.id}/sales|}" class="btn btn-primary">业绩</a>
+          <a th:href="@{|/admin/removeSalesman/${salesman.id}|}" class="btn btn-danger">删除</a>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{header :: header ('销售人员业绩')}"></head>
+<body>
+<div class="container">
+  <table class="table table-bordered text-center">
+    <thead class="text-primary">
+    <tr>
+      <th>商品名</th>
+      <th>商品图</th>
+      <th>价格/元</th>
+      <th>售出数量</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="orderDetail:${orderDetailList}">
+      <td th:text="${orderDetail.item.name}"></td>
+      <td><img th:src="@{|/upload/${orderDetail.item.image}|}" width="60px"></td>
+      <td th:text="${orderDetail.item.price}"></td>
+      <td th:text="${orderDetail.num}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

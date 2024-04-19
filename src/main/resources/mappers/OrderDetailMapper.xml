@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shoponline.repository.OrderDetailRepo">
+    <resultMap id="orderDetailResult" type="OrderDetail" autoMapping="false">
+        <id column="id" property="id" />
+        <result column="num" property="num" />
+        <association property="order">
+            <id column="order_id" property="id" />
+        </association>
+        <association property="item">
+            <id column="item_id" property="id" />
+            <result column="name" property="name" />
+            <result column="image" property="image" />
+            <result column="price" property="price" />
+        </association>
+    </resultMap>
+
+    <select id="findByOrderId" resultMap="orderDetailResult">
+        select order_detail.*, `item`.`name`, `item`.`image`, `item`.`price`
+        from `order_detail`, `item`
+        where `order_detail`.`order_id` = #{orderId} and
+              `order_detail`.item_id = `item`.`id`
+    </select>
+    <select id="findByItemAndOrder" resultMap="orderDetailResult">
+        select `order_detail`.*, `item`.`name`, `item`.`image`, `item`.`price`
+        from `order_detail`, `item`
+        where `order_detail`.`item_id` = #{itemId} and
+              `order_detail`.`order_id` = #{orderId} and
+              `order_detail`.item_id = `item`.`id`
+    </select>
+    <insert id="insert">
+        insert into `order_detail` values ( null, #{order.id}, #{item.id}, #{num} )
+    </insert>
+    <update id="update">
+        update `order_detail` set
+                          `order_id` = #{order.id},
+                          `item_id` = #{item.id},
+                          `num` = #{num}
+        where `id` = #{id}
+    </update>
+    <delete id="delete">
+        delete from `order_detail` where `id` = #{id}
+    </delete>
+    <select id="findBySalesmanId" resultMap="orderDetailResult">
+        select `order_detail`.*, `item`.`name`, `item`.`image`, `item`.`price`
+        from `order_detail`, `item`
+        where `order_detail`.`item_id` = `item`.`id` and
+              `item`.`salesman_id` = #{salesmanId}
+    </select>
+</mapper>

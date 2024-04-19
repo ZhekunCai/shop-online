@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{header :: header ('购买商品')}"></head>
+<body>
+<div class="container card-deck">
+  <div class="card mw-25 mh-100">
+    <img class="card-img-top" th:src="@{${item.image != null} ? |/upload/${item.image}| : '/image/default-item-image.png'}">
+    <div class="card-body">
+      <h4 class="card-title" th:text="${item.name}"></h4>
+      <p class="card-text" th:text="'￥' + ${item.price}"></p>
+      <p class="card-text" th:text="'库存：' + ${item.inventory}"></p>
+      <p class="card-text" th:text="'销售员：' + ${item.salesman.username}"></p>
+      <form class="form-inline" th:action="@{|/order/addItem/${item.id}|}" method="post">
+        <label>数量：<input class="form-control" type="number" name="num"></label>
+        <input class="btn btn-primary" type="submit">
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

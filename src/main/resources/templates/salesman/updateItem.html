@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{header :: header ('修改商品')}"></head>
+<body>
+<div class="container">
+  <h1>修改商品信息</h1>
+  <form method="post" enctype="multipart/form-data"
+        th:action="@{/salesman/updateItem}" th:object="${item}">
+    <input th:field="*{id}" type="hidden">
+    <input th:field="*{salesman.id}" type="hidden">
+    <div class="form-group">
+      <label>商品名</label>
+        <input class="form-control" placeholder="商品名长度为3~20个字符"
+               required th:field="*{name}">
+      <div class="text-danger" th:errors="*{name}"
+           th:if="${#fields.hasErrors('name')}"></div>
+    </div>
+    <div class="form-group">
+      <label>价格/元</label>
+        <input class="form-control"
+               required th:field="*{price}">
+      <div class="text-danger" th:errors="*{price}"
+           th:if="${#fields.hasErrors('price')}"></div>
+    </div>
+    <div class="form-group">
+      <label>库存</label>
+        <input class="form-control"
+               required th:field="*{inventory}">
+      <div class="text-danger" th:errors="*{inventory}"
+           th:if="${#fields.hasErrors('inventory')}"></div>
+    </div>
+    <div class="form-group">
+      <label style="display: block">是否在售</label>
+      <div class="form-check-inline">
+        <label class="form-check-label">
+          <input type="radio" class="form-check-input" th:field="*{onSale}" th:value="true" required>是
+        </label>
+      </div>
+      <div class="form-check-inline">
+        <label class="form-check-label">
+          <input type="radio" class="form-check-input" th:field="*{onSale}" th:value="false" required>否
+        </label>
+      </div>
+    </div>
+    <button class="btn btn-primary" type="submit">提交</button>
+  </form>
+</div>
+</body>
+</html>
