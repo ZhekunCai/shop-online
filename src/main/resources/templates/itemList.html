@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{header :: header ('商品列表')}"></head>
 <body>
-<div class="container card-deck">
+<div class="container card-columns">
   <div class="card mw-25 mh-100" th:each="item:${itemList}">
     <img class="card-img-top" th:src="@{|/upload/${item.image}|}">
     <div class="card-body">

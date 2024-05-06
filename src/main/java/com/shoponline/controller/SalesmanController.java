@@ -143,7 +143,7 @@ public class SalesmanController {
     @GetMapping("/removeItem/{id}")
     public String removeItem(@PathVariable("id") Long id, Model model,
                              @AuthenticationPrincipal User salesman) {
-        Item item = itemRepo.findBySalesmanId(id).get(0);
+        Item item = itemRepo.findById(id);
         if (item.getSalesman().getId().equals(salesman.getId())) {
             itemRepo.delete(id);
         }

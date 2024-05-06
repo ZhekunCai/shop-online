@@ -19,7 +19,6 @@ import java.util.Objects;
 
 @Controller
 @RequestMapping("/order")
-@SessionAttributes("order")
 public class OrderController {
 
     private OrderRepo orderRepo;
@@ -112,6 +111,13 @@ public class OrderController {
      */
     @GetMapping("/confirm")
     public String confirmOrder(@ModelAttribute("order") Order order, SessionStatus sessionStatus) {
+        List<OrderDetail> orderDetailList = orderDetailRepo.findByOrderId(order.getId());
+        // 计算总价
+        double cost = 0.0;
+        for (OrderDetail orderDetail : orderDetailList) {
+            cost += orderDetail.getItem().getPrice() * orderDetail.getNum();
+        }
+        order.setCost(cost);
         order.setConfirm(true);
         orderRepo.update(order);
         sessionStatus.setComplete();

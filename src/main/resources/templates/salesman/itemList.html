@@ -33,7 +33,6 @@
       <td th:text="${item.salesman.username}"></td>
       <td>
         <div class="btn-group">
-          <a th:href="@{'/admin/salesman/' + ${item.salesman.id}}" class="btn btn-primary">业绩</a>
           <a th:href="@{|/salesman/updateItem/${item.id}|}" class="btn btn-info">修改</a>
           <a th:href="@{|/salesman/removeItem/${item.id}|}" class="btn btn-danger">删除</a>
         </div>
